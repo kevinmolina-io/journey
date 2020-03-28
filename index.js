@@ -2,17 +2,32 @@ const { ApolloServer } = require("apollo-server");
 const gql = require("graphql-tag");
 const mongoose = require("mongoose");
 
+const Entry = require("./models/Entry");
 const { MONGODB } = require("./config");
 
 const typeDefs = gql`
+  type Entry {
+    id: ID!
+    title: String!
+    body: String!
+    createdAt: String!
+    username: String!
+  }
   type Query {
-    sayHi: String!
+    getEntries: [Entry]
   }
 `;
 
 const resolvers = {
   Query: {
-    sayHi: () => "Hello World from GraphQL!"
+    async getEntries() {
+      try {
+        const entries = await Entry.find();
+        return entries;
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
   }
 };
 
