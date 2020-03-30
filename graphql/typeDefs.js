@@ -4,7 +4,7 @@ module.exports = gql`
   type Entry {
     id: ID!
     schedule: String
-    goals: String!
+    goals: String
     todo: String
     motivation: String!
     happiness: String!
@@ -26,9 +26,18 @@ module.exports = gql`
   }
   type Query {
     getEntries: [Entry]
+    getEntry(entryId: ID!): Entry
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    createEntry(
+      schedule: String
+      goals: String
+      todo: String
+      motivation: String!
+      happiness: String!
+    ): Entry!
+    deleteEntry(entryId: ID!): String!
   }
 `;
