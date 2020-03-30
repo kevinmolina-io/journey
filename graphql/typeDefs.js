@@ -3,8 +3,11 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   type Entry {
     id: ID!
-    title: String!
-    body: String!
+    schedule: String
+    goals: String!
+    todo: String
+    motivation: String!
+    happiness: String!
     createdAt: String!
     username: String!
   }

@@ -1,8 +1,11 @@
 const { model, Schema } = require("mongoose");
 
 const entrySchema = new Schema({
-  title: String,
-  body: String,
+  schedule: String,
+  goals: String,
+  todo: String,
+  motivation: String,
+  happiness: String,
   username: String,
   createdAt: String,
   user: {
