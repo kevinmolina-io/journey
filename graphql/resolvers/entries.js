@@ -17,13 +17,12 @@ module.exports = {
         // verify that the entry exists...
         if (entry) {
           return entry;
-        } else {
-          throw new Error("Entry not found");
         }
+        throw new Error("Entry not found");
       } catch (error) {
         throw new Error(error);
       }
-    }
+    },
   },
   Mutation: {
     async createEntry(
@@ -32,7 +31,7 @@ module.exports = {
       context
     ) {
       const user = checkAuth(context);
-      console.log(user);
+      // console.log(user);
 
       const newEntry = new Entry({
         schedule,
@@ -42,12 +41,12 @@ module.exports = {
         happiness,
         user: user.id,
         username: user.username,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
 
       const entry = await newEntry.save();
 
       return entry;
-    }
-  }
+    },
+  },
 };
