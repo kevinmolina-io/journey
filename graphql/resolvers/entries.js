@@ -1,3 +1,5 @@
+const { AuthenticationError } = require("apollo-server");
+
 const Entry = require("../../models/Entry");
 const checkAuth = require("../../util/check_auth");
 
@@ -47,6 +49,21 @@ module.exports = {
       const entry = await newEntry.save();
 
       return entry;
+    },
+
+    async deleteEntry(_, { entryId }, context) {
+      const user = checkAuth(context);
+
+      try {
+        const entry = await Entry.findById(entryId);
+        if (user.username === entry.username) {
+          await entry.delete();
+          return "Entry deleted successfully";
+        }
+        throw new AuthenticationError("Action not allowed");
+      } catch (error) {
+        throw new Error(error);
+      }
     },
   },
 };
