@@ -4,7 +4,7 @@ const { UserInputError } = require("apollo-server");
 
 const {
   validateRegisterInput,
-  validateLoginInput
+  validateLoginInput,
 } = require("../../util/validators");
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
@@ -14,7 +14,7 @@ function generateToken(user) {
     {
       id: user.id,
       email: user.email,
-      username: user.username
+      username: user.username,
     },
     SECRET_KEY,
     { expiresIn: "1h" }
@@ -48,7 +48,7 @@ module.exports = {
       return {
         ...user._doc,
         id: user._id,
-        token
+        token,
       };
     },
     async register(
@@ -70,18 +70,18 @@ module.exports = {
       if (user) {
         throw new UserInputError("Username is taken", {
           errors: {
-            username: "This username is taken" // used to display errors on client side
-          }
+            username: "This username is taken", // used to display errors on client side
+          },
         });
       }
       // hash password and create auth token
-      password = await bcrypt.hash(password, 12);
+      const hashedPassword = await bcrypt.hash(password, 12);
 
       const newUser = new User({
         email,
         username,
-        password,
-        createdAt: new Date().toISOString()
+        password: hashedPassword,
+        createdAt: new Date().toISOString(),
       });
 
       // save user to User collection
@@ -92,8 +92,8 @@ module.exports = {
       return {
         ...res._doc,
         id: res._id,
-        token
+        token,
       };
-    }
-  }
+    },
+  },
 };
