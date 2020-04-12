@@ -13,6 +13,20 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async getMyEntries(_, args, context) {
+      // Authenticate user
+      const user = checkAuth(context);
+      // Fetch entries
+      try {
+        const entries = await Entry.find().sort({ createdAt: "desc" });
+        // Filter entries that are of logged in user
+        const userEntries = entries.filter((e) => e.username === user.username);
+        // return filtered entries
+        return userEntries;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
     async getEntry(_, { entryId }) {
       try {
         const entry = await Entry.findById(entryId);
