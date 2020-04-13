@@ -8,10 +8,17 @@ const entrySchema = new Schema({
   happiness: String,
   username: String,
   createdAt: String,
+  retrospect: [
+    {
+      body: String,
+      username: String,
+      createdAt: String,
+    },
+  ],
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
-  }
+    ref: "users",
+  },
 });
 
 module.exports = model("Entry", entrySchema);

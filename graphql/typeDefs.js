@@ -10,6 +10,13 @@ module.exports = gql`
     happiness: String!
     createdAt: String!
     username: String!
+    retrospect: [Retrospect]!
+  }
+  type Retrospect {
+    id: ID!
+    createdAt: String!
+    username: String!
+    body: String!
   }
   type User {
     id: ID!
@@ -40,5 +47,7 @@ module.exports = gql`
       happiness: String!
     ): Entry!
     deleteEntry(entryId: ID!): String!
+    createRetrospect(entryId: String!, body: String!): Entry!
+    deleteRetrospect(entryId: ID!, retrospectId: ID!): Entry!
   }
 `;
