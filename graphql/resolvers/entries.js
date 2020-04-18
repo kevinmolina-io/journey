@@ -1,4 +1,4 @@
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Entry = require("../../models/Entry");
 const checkAuth = require("../../util/check_auth");
@@ -78,6 +78,33 @@ module.exports = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    async accomplishEntry(_, { entryId }, context) {
+      const { username } = checkAuth(context);
+
+      const entry = await Entry.findById(entryId);
+
+      if (entry) {
+        if (
+          entry.accomplishes.find(
+            (accomplished) => accomplished.username === username
+          )
+        ) {
+          // Entry already "accomplished", un"accomplish" it
+          entry.accomplishes = entry.accomplishes.filter(
+            (accomplished) => accomplished.username !== username
+          );
+        } else {
+          // Not accomplished, so...accomplish it
+          entry.accomplishes.push({
+            username,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        await entry.save();
+        return entry;
+      }
+      throw new UserInputError("Entry not found");
     },
   },
 };

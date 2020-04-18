@@ -11,12 +11,18 @@ module.exports = gql`
     createdAt: String!
     username: String!
     retrospect: [Retrospect]!
+    accomplishes: [Accomplish]!
   }
   type Retrospect {
     id: ID!
     createdAt: String!
     username: String!
     body: String!
+  }
+  type Accomplish {
+    id: ID!
+    createdAt: String!
+    username: String!
   }
   type User {
     id: ID!
@@ -49,5 +55,6 @@ module.exports = gql`
     deleteEntry(entryId: ID!): String!
     createRetrospect(entryId: String!, body: String!): Entry!
     deleteRetrospect(entryId: ID!, retrospectId: ID!): Entry!
+    accomplishEntry(entryId: ID!): Entry!
   }
 `;

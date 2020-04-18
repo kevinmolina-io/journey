@@ -15,6 +15,12 @@ const entrySchema = new Schema({
       createdAt: String,
     },
   ],
+  accomplishes: [
+    {
+      username: String,
+      createdAt: String,
+    },
+  ],
   user: {
     type: Schema.Types.ObjectId,
     ref: "users",
