@@ -1,4 +1,4 @@
-const { UserInputError } = require("apollo-server");
+const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Entry = require("../../models/Entry");
 
@@ -30,6 +30,30 @@ module.exports = {
         return entry;
       }
 
+      throw new UserInputError("Entry not found");
+    },
+    async deleteRetrospect(_, { entryId, retrospectId }, context) {
+      // Authenticate User
+      const { username } = checkAuth(context);
+
+      // Find entry based on ID
+      const entry = await Entry.findById(entryId);
+
+      // If entry exists, find index of retrospect by ID
+      if (entry) {
+        const retrospectIndex = entry.retrospect.findIndex(
+          (r) => r.id === retrospectId
+        );
+
+        // Verify that retrospect belongs to authenticated user (it should)
+        if (entry.retrospect[retrospectIndex].username === username) {
+          // Delete retrospect from retrospect array based on index
+          entry.retrospect.splice(retrospectIndex, 1);
+          await entry.save();
+          return entry;
+        }
+        throw new AuthenticationError("Action not allowed");
+      }
       throw new UserInputError("Entry not found");
     },
   },
