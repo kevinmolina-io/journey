@@ -21,6 +21,7 @@ module.exports = {
 
       // if the entry exists
       if (entry) {
+        // TODO: if entry.username === username {... do below
         entry.retrospect.unshift({
           body,
           username,
