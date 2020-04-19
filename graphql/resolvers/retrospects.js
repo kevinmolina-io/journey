@@ -21,8 +21,8 @@ module.exports = {
 
       // if the entry exists
       if (entry) {
+        // check that owner is allowed to submit a retrospect
         if (entry.username === username) {
-          // check that owner is allowed to submit a retrospect
           entry.retrospect.unshift({
             body,
             username,
@@ -49,7 +49,7 @@ module.exports = {
           (r) => r.id === retrospectId
         );
 
-        // Verify that retrospect belongs to authenticated user (it should)
+        // Verify that retrospect belongs to authenticated user
         if (entry.retrospect[retrospectIndex].username === username) {
           // Delete retrospect from retrospect array based on index
           entry.retrospect.splice(retrospectIndex, 1);
