@@ -27,12 +27,18 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async getEntry(_, { entryId }) {
+    async getEntry(_, { entryId }, context) {
+      // Authenticate user
+      const user = checkAuth(context);
       try {
         const entry = await Entry.findById(entryId);
         // verify that the entry exists...
         if (entry) {
-          return entry;
+          // verify that entry belongs to logged in user...
+          if (entry.username === user.username) {
+            return entry;
+          }
+          throw new AuthenticationError("Action Not Allowed");
         }
         throw new Error("Entry not found");
       } catch (error) {
