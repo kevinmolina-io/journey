@@ -49,6 +49,17 @@ module.exports = {
       const user = checkAuth(context);
       // console.log(user);
 
+      if (goals.trim() === "") {
+        throw new Error("Goals section must not be empty");
+      }
+
+      if (motivation.trim() === "") {
+        throw new Error("Motivation section must not be empty");
+      }
+      if (happiness.trim() === "") {
+        throw new Error("Motivation section must not be empty");
+      }
+
       const newEntry = new Entry({
         schedule,
         goals,

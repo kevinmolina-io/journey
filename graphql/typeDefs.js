@@ -4,7 +4,7 @@ module.exports = gql`
   type Entry {
     id: ID!
     schedule: String
-    goals: String
+    goals: String!
     todo: String
     motivation: String!
     happiness: String!

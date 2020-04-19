@@ -21,16 +21,19 @@ module.exports = {
 
       // if the entry exists
       if (entry) {
-        // TODO: if entry.username === username {... do below
-        entry.retrospect.unshift({
-          body,
-          username,
-          createdAt: new Date().toISOString(),
-        });
-        await entry.save();
-        return entry;
-      }
+        if (entry.username === username) {
+          // check that owner is allowed to submit a retrospect
+          entry.retrospect.unshift({
+            body,
+            username,
+            createdAt: new Date().toISOString(),
+          });
+          await entry.save();
+          return entry;
+        }
 
+        throw new AuthenticationError("Action Not Allowed");
+      }
       throw new UserInputError("Entry not found");
     },
     async deleteRetrospect(_, { entryId, retrospectId }, context) {
