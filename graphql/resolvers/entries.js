@@ -63,7 +63,13 @@ module.exports = {
         throw new Error("Motivation section must not be empty");
       }
       if (happiness.trim() === "") {
-        throw new Error("Motivation section must not be empty");
+        throw new Error("Happiness section must not be empty");
+      }
+      if (schedule.trim() === "") {
+        throw new Error("Schedule section must not be empty");
+      }
+      if (todo.trim() === "") {
+        throw new Error("Todo section must not be empty");
       }
 
       const newEntry = new Entry({

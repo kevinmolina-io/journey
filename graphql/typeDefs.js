@@ -3,9 +3,9 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   type Entry {
     id: ID!
-    schedule: String
+    schedule: String!
     goals: String!
-    todo: String
+    todo: String!
     motivation: String!
     happiness: String!
     createdAt: String!
