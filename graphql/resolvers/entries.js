@@ -13,7 +13,7 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async getMyEntries(_, args, context) {
+    async getMyEntries(_, _args, context) {
       // Authenticate user
       const user = checkAuth(context);
       // Fetch entries
