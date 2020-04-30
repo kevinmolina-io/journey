@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { Grid, Segment, Header } from "semantic-ui-react";
 
+import { AuthContext } from "../context/auth";
+
 import EntryCard from "../components/EntryCard";
 
 function Home(props) {
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const { loading, data } = useQuery(FETCH_ENTRIES_QUERY);
 
   if (data) {
