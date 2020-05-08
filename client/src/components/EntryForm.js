@@ -18,16 +18,24 @@ function EntryForm() {
   const [createEntry, { error }] = useMutation(CREATE_ENTRY_MUTATION, {
     variables: values,
     update(proxy, result) {
-      const data = proxy.readQuery({
-        query: FETCH_MY_ENTRIES_QUERY,
-      });
-      data.getMyEntries = [result.data.createEntry, ...data.getMyEntries];
-      proxy.writeQuery({ query: FETCH_MY_ENTRIES_QUERY, data });
-      values.schedule = "";
-      values.goals = "";
-      values.todo = "";
-      values.motivation = "";
-      values.happiness = "";
+      try {
+        const data = proxy.readQuery({
+          query: FETCH_MY_ENTRIES_QUERY,
+        });
+        proxy.writeQuery({
+          query: FETCH_MY_ENTRIES_QUERY,
+          data: {
+            getMyEntries: [result.data.createEntry, ...data.getMyEntries],
+          },
+        });
+        values.schedule = "";
+        values.goals = "";
+        values.todo = "";
+        values.motivation = "";
+        values.happiness = "";
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
